@@ -1,11 +1,15 @@
 package com.rogerioisj.listadefilmes.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rogerioisj.listadefilmes.Others.RecyclerItemClickListener;
 import com.rogerioisj.listadefilmes.R;
 import com.rogerioisj.listadefilmes.adapter.AdapterFilmes;
 import com.rogerioisj.listadefilmes.model.Filme;
@@ -36,6 +40,28 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapterFilmes);
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
+                getApplicationContext(),
+                recyclerView,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Filme filme = filmes.get(position);
+                        Toast.makeText(MainActivity.this, "Click simples em: " + filme.getTitulo(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        Filme filme = filmes.get(position);
+                        Toast.makeText(MainActivity.this, "Click longo em: " + filme.getTitulo(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    }
+                }
+        ));
     }
 
     public void criarFilmes() {
